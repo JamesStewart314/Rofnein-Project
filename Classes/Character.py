@@ -117,20 +117,20 @@ class Character:
         if self.ultimate and (Game_Constants.ultimate_using_time - (pygame.time.get_ticks() - self.ultimate_time) <= 2000):
             if self.frame_index % 2 == 0:
                 if self.moving[0] or self.moving[1]:
-                    self.animation = Assets.Player_Images.Player_Runnning_Ultimate_Animation
+                    self.animation = Assets.Player_Images.Player_Running_Ultimate_Animation
                 else:
-                    if self.animation == Assets.Player_Images.Player_Runnning_Ultimate_Animation or\
-                            self.animation == Assets.Player_Images.Player_Runnning_Animation:
+                    if self.animation == Assets.Player_Images.Player_Running_Ultimate_Animation or\
+                            self.animation == Assets.Player_Images.Player_Running_Animation:
 
                         MyFunctions.set_animation(self, Assets.Player_Images.Player_Idle_Ultimate_Animation)
                     else:
                         self.animation = Assets.Player_Images.Player_Idle_Ultimate_Animation
             else:
                 if self.moving[0] or self.moving[1]:
-                    self.animation = Assets.Player_Images.Player_Runnning_Animation
+                    self.animation = Assets.Player_Images.Player_Running_Animation
                 else:
-                    if self.animation == Assets.Player_Images.Player_Runnning_Ultimate_Animation or\
-                            self.animation == Assets.Player_Images.Player_Runnning_Animation:
+                    if self.animation == Assets.Player_Images.Player_Running_Ultimate_Animation or\
+                            self.animation == Assets.Player_Images.Player_Running_Animation:
 
                         MyFunctions.set_animation(self, Assets.Player_Images.Player_Idle_Animation)
                     else:
@@ -234,7 +234,7 @@ class Character:
             if not self.dashing and not self.teleportation:
                 if not self.ultimate:
                     if dx != 0 or dy != 0:  # Movement animation.
-                        MyFunctions.set_animation(self, Assets.Player_Images.Player_Runnning_Animation)
+                        MyFunctions.set_animation(self, Assets.Player_Images.Player_Running_Animation)
                         self.moving = (MyFunctions.sign(dx), MyFunctions.sign(dy))
                     else:  # Idle animation.
                         MyFunctions.set_animation(self, Assets.Player_Images.Player_Idle_Animation)
@@ -242,7 +242,7 @@ class Character:
                 else:  # Movement in Ultimate :
                     if dx != 0 or dy != 0:  # Movement animation.
                         if Game_Constants.ultimate_using_time - (pygame.time.get_ticks() - self.ultimate_time) > 2000:
-                            MyFunctions.set_animation(self, Assets.Player_Images.Player_Runnning_Ultimate_Animation)
+                            MyFunctions.set_animation(self, Assets.Player_Images.Player_Running_Ultimate_Animation)
                         self.moving = (MyFunctions.sign(dx), MyFunctions.sign(dy))
                     else:  # Idle animation.
                         if Game_Constants.ultimate_using_time - (pygame.time.get_ticks() - self.ultimate_time) > 2000:
@@ -444,6 +444,9 @@ class Character:
             else:
                 MyFunctions.set_animation(self, Assets.Player_Images.Player_Global_Ultimate_Teleport_Start)
 
+            Sound_Effects.Walking_Sound.stop()
+            Sound_Effects.Grass_Walking_Sound.stop()
+            Sound_Effects.Echo_Walking_Sound.stop()
             Sound_Effects.Teleport_Sound.play()
 
     def ultimate_cast(self):
