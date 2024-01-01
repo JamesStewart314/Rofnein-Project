@@ -24,6 +24,7 @@ class Character:
         self.can_attack = True
         self.can_change_weapon = True
         self.can_dash = False
+        self.can_interact = True
         self.can_move = True
         self.can_teleport = True
         self.can_regenerate = True
