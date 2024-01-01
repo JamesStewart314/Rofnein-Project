@@ -11,7 +11,7 @@ Player_Idle_Animation = [
     MyFunctions.pygame_scale_img(pygame.image.load(f"Assets/Default_Character/Original_Tiles/tile{i:0>3}.png"),
                                  Game_Constants.SCALE) for i in range(6)]
 
-Player_Runnning_Animation = [
+Player_Running_Animation = [
     MyFunctions.pygame_scale_img(pygame.image.load(f"Assets/Default_Character/Original_Tiles/tile{i:0>3}.png"),
                                  Game_Constants.SCALE) for i in range(9, 17)]
 
@@ -51,7 +51,7 @@ Player_Idle_Ultimate_Animation = [
     MyFunctions.pygame_scale_img(pygame.image.load(f"Assets/Default_Character/Nicolau_Ultimate_Skin/tile{i:0>3}.png"),
                                  Game_Constants.SCALE) for i in range(6)]
 
-Player_Runnning_Ultimate_Animation = [
+Player_Running_Ultimate_Animation = [
     MyFunctions.pygame_scale_img(pygame.image.load(f"Assets/Default_Character/Nicolau_Ultimate_Skin/tile{i:0>3}.png"),
                                  Game_Constants.SCALE) for i in range(9, 17)]
 
