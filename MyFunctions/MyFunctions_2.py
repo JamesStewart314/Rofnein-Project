@@ -142,6 +142,10 @@ def change_level(screen: object, current_world: World, current_player: Character
 
     screen.fill(Game_Constants.BLACK_COLOR)  # Reset the background
 
+    Sound_Effects.Grass_Walking_Sound.stop()
+    Sound_Effects.Walking_Sound.stop()
+    Sound_Effects.Echo_Walking_Sound.stop()
+
     # Saving the items from current level :
     Worlds.Level_Items.__getitem__(Worlds.current_level).clear()  # To not duplicate the items
 
@@ -169,8 +173,6 @@ def change_level(screen: object, current_world: World, current_player: Character
     if (level == 3 and Worlds.current_level == 2) or (level == 6 and Worlds.current_level == 3) or \
             (level == 7 and Worlds.current_level == 6):
         Sound_Effects.Close_Door.play()
-        Sound_Effects.Grass_Walking_Sound.stop()
-        Sound_Effects.Walking_Sound.stop()
 
     if level == 3 and Worlds.current_level in {4, 5}:
         Worlds.Level_Enemies.__getitem__(Worlds.current_level).clear()
@@ -230,45 +232,49 @@ def change_level(screen: object, current_world: World, current_player: Character
 def open_door(interaction_info: list) -> None:
 
     if Worlds.current_level == 1:
-        # No Restrictions
-        interaction_info[0][0] = interaction_info[1]  # Change the sprite to opened door
-        interaction_info[0][2] = False  # Disable the door collision
-        if Worlds.draw_mask:  # Changing the Mask :
-            Worlds.current_mask = Worlds.World_Masks[Worlds.current_level][1]
-        Sound_Effects.Open_Door.play_loop()
+        if interaction_info[0][2]:  # If Door still Closed
+            # No Restrictions
+            interaction_info[0][0] = interaction_info[1]  # Change the sprite to opened door
+            interaction_info[0][2] = False  # Disable the door collision
+            if Worlds.draw_mask:  # Changing the Mask :
+                Worlds.current_mask = Worlds.World_Masks[Worlds.current_level][1]
+            Sound_Effects.Open_Door.play_loop()
 
     if Worlds.current_level == 2:
-        if not bool(Worlds.Level_Enemies.__getitem__(2)):
-            # If it has no enemies in level 2 :
+        if not bool(Worlds.Level_Enemies.__getitem__(2)) and interaction_info[0][2]:
+            # If it has no enemies in level 2 and Door still CLosed:
             interaction_info[0][0] = interaction_info[1]  # Change the sprite to opened door
             interaction_info[0][2] = False  # Disable the door collision
             if Worlds.draw_mask:  # Changing the Mask :
                 Worlds.current_mask = Worlds.World_Masks[Worlds.current_level][1]
             Sound_Effects.Open_Door.play_loop()
         else:
-            Sound_Effects.Closed_Door.play_loop()
+            if interaction_info[0][2]:
+                Sound_Effects.Closed_Door.play_loop()
 
     elif Worlds.current_level == 3:
         if not ((functools.reduce(lambda aux_1, aux_2: aux_1 or aux_2, Worlds.World_Raids.__getitem__(4)[1])) or
                 (functools.reduce(lambda aux_1, aux_2: aux_1 or aux_2, Worlds.World_Raids.__getitem__(5)[1]))) and \
-                ("Steel_bow" in Worlds.current_player.weapons_inventory):
+                ("Steel_bow" in Worlds.current_player.weapons_inventory) and interaction_info[0][2]:
 
             # If it has no enemies in level 4 and 5 :
             interaction_info[0][0] = interaction_info[1]  # Change the sprite to opened door
             interaction_info[0][2] = False  # Disable the door collision
             Sound_Effects.Open_Door.play_loop()
         else:
-            Sound_Effects.Closed_Door.play_loop()
+            if interaction_info[0][2]:
+                Sound_Effects.Closed_Door.play_loop()
 
     elif Worlds.current_level == 6:
         if not (functools.reduce(lambda aux_1, aux_2: aux_1 or aux_2, Worlds.World_Raids.__getitem__(6)[1])) and\
-                ("Gold_bow" in Worlds.current_player.weapons_inventory):
+                ("Gold_bow" in Worlds.current_player.weapons_inventory) and interaction_info[0][2]:
             # If it has no enemies in level 6 :
             interaction_info[0][0] = interaction_info[1]  # Change the sprite to opened door
             interaction_info[0][2] = False  # Disable the door collision
             Sound_Effects.Open_Door.play_loop()
         else:
-            Sound_Effects.Closed_Door.play_loop()
+            if interaction_info[0][2]:
+                Sound_Effects.Closed_Door.play_loop()
 
 
 def menu(screen: object, is_fullscreen: bool = False) -> None:
@@ -661,7 +667,7 @@ def play(screen: object, is_fullscreen: bool = False) -> None:
                         # if interaction has not occured yet :
                         if not interaction[3]:
 
-                            if current_player.hitbox.colliderect(interaction[2]):
+                            if current_player.hitbox.colliderect(interaction[2]) and current_player.can_interact:
                                 interaction[4](interaction)
 
                 if Event.type == pygame.KEYDOWN:
@@ -999,6 +1005,7 @@ def play(screen: object, is_fullscreen: bool = False) -> None:
             if level_locations:  # if != 'None'
                 # Checks if the player has progressed to the next level :
                 if current_player.rect.colliderect(level_locations[0]):
+                    current_player.can_interact = False
                     next_level = level_locations
                     Worlds.Do_Fade = 2  # Times to do the fade.
                     Worlds.Current_Fade_Animation = Worlds.Fade_Animation[0]
@@ -1045,6 +1052,7 @@ def play(screen: object, is_fullscreen: bool = False) -> None:
 
         else:
             current_player.can_move = True
+            current_player.can_interact = True
 
             for enemy in enemy_list:
                 enemy.can_move = True
@@ -1481,6 +1489,7 @@ def raid(current_player: Character, quantity: int, frequency: Union[int, float],
                 Worlds.raid_index = 0
                 return True
 
+            # If player has defeated the Raid :
             Worlds.World_Raids.__getitem__(Worlds.current_level)[1][Worlds.raid_index] = False
 
             Worlds.raid_index += 1
