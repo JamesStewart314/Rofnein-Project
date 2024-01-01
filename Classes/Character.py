@@ -414,17 +414,17 @@ class Character:
             self.dash_velocity = Game_Constants.dash_velocity
             self.Animation_Cooldown = Game_Constants.dash_animation_cooldown
 
-            Sound_Effects.Walking_Sound.stop()
-            Sound_Effects.Grass_Walking_Sound.stop()
-            Sound_Effects.Echo_Walking_Sound.stop()
-            Sound_Effects.Dash_Sound.play()
-
             self.dash_time = pygame.time.get_ticks()
 
             if not self.ultimate:
                 MyFunctions.set_animation(self, Assets.Player_Images.Player_First_Dash)
             else:
                 MyFunctions.set_animation(self, Assets.Player_Images.Player_First_Dash_Ultimate)
+
+            Sound_Effects.Walking_Sound.stop()
+            Sound_Effects.Grass_Walking_Sound.stop()
+            Sound_Effects.Echo_Walking_Sound.stop()
+            Sound_Effects.Dash_Sound.play()
 
     def teleport(self, new_position: tuple) -> None:
         if self.can_teleport:
