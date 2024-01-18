@@ -115,26 +115,55 @@ class Character:
             self.can_change_weapon = True
 
         if self.ultimate and (Game_Constants.ultimate_using_time - (pygame.time.get_ticks() - self.ultimate_time) <= 2000):
-            if self.frame_index % 2 == 0:
-                if self.moving[0] or self.moving[1]:
-                    self.animation = Assets.Player_Images.Player_Running_Ultimate_Animation
-                else:
-                    if self.animation == Assets.Player_Images.Player_Running_Ultimate_Animation or\
-                            self.animation == Assets.Player_Images.Player_Running_Animation:
-
-                        MyFunctions.set_animation(self, Assets.Player_Images.Player_Idle_Ultimate_Animation)
+            # The player begins to alternate colors to warn of the end of the ultimate.
+            if not ((self.dashing or self.end_dashing) or (self.teleportation or self.end_teleportation)):  # Not Teleporting and Dashing
+                if self.frame_index % 2 == 0:
+                    if self.moving[0] or self.moving[1]:
+                        self.animation = Assets.Player_Images.Player_Running_Ultimate_Animation
                     else:
-                        self.animation = Assets.Player_Images.Player_Idle_Ultimate_Animation
+                        if self.animation == Assets.Player_Images.Player_Running_Ultimate_Animation or\
+                                self.animation == Assets.Player_Images.Player_Running_Animation:
+
+                            MyFunctions.set_animation(self, Assets.Player_Images.Player_Idle_Ultimate_Animation)
+                        else:
+                            self.animation = Assets.Player_Images.Player_Idle_Ultimate_Animation
+                else:
+                    if self.moving[0] or self.moving[1]:
+                        self.animation = Assets.Player_Images.Player_Running_Animation
+                    else:
+                        if self.animation == Assets.Player_Images.Player_Running_Ultimate_Animation or\
+                                self.animation == Assets.Player_Images.Player_Running_Animation:
+
+                            MyFunctions.set_animation(self, Assets.Player_Images.Player_Idle_Animation)
+                        else:
+                            self.animation = Assets.Player_Images.Player_Idle_Animation
             else:
-                if self.moving[0] or self.moving[1]:
-                    self.animation = Assets.Player_Images.Player_Running_Animation
-                else:
-                    if self.animation == Assets.Player_Images.Player_Running_Ultimate_Animation or\
-                            self.animation == Assets.Player_Images.Player_Running_Animation:
+                if self.animation in (Assets.Player_Images.Player_Running_Ultimate_Animation,
+                                      Assets.Player_Images.Player_Idle_Ultimate_Animation,
+                                      Assets.Player_Images.Player_Running_Animation,
+                                      Assets.Player_Images.Player_Idle_Animation):
+                    if self.dashing:
+                        if self.frame_index % 2 == 0:
+                            MyFunctions.set_animation(self, Assets.Player_Images.Player_First_Dash_Ultimate)
+                        else:
+                            MyFunctions.set_animation(self, Assets.Player_Images.Player_First_Dash)
+                    else:  # Player is Teleporting
+                        if self.frame_index % 2 == 0:
+                            MyFunctions.set_animation(self, Assets.Player_Images.Player_Global_Ultimate_Teleport_Start)
+                        else:
+                            MyFunctions.set_animation(self, Assets.Player_Images.Player_Global_Teleport_Start)
 
-                        MyFunctions.set_animation(self, Assets.Player_Images.Player_Idle_Animation)
+                if self.dashing or self.end_dashing:
+                    if self.dashing and not self.end_dashing:
+                        if self.frame_index % 2 == 0:
+                            self.animation = Assets.Player_Images.Player_First_Dash_Ultimate
+                        else:
+                            self.animation = Assets.Player_Images.Player_First_Dash
                     else:
-                        self.animation = Assets.Player_Images.Player_Idle_Animation
+                        if self.frame_index % 2 == 0:
+                            self.animation = Assets.Player_Images.Player_Second_Dash_Ultimate
+                        else:
+                            self.animation = Assets.Player_Images.Player_Second_Dash
 
         # Handle Animation and update image.
         self.player_image = self.animation[self.frame_index]
