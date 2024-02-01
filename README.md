@@ -1,4 +1,4 @@
-# Rofnein - The Game
+![# Rofnein - The Game](Game_Title.jpg)
 
 This is a 2D roguelike game project developed jointly by ***Ayrton Surica*** and ***Allber Fellype Soares Ferreira*** for evaluation purposes of the Game Programming Laboratory discipline, taught by professor Esteban Walter Gonzalez Clua.
 
