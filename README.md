@@ -6,8 +6,8 @@
 
 ## Project Collaborators:
 
-### ● Ayrton Surica
-### ● Allber Fellype Soares Ferreira
+### ● *Ayrton Surica*
+### ● *Allber Fellype Soares Ferreira*
 #
 
 
