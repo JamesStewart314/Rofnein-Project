@@ -11,6 +11,6 @@
 #
 
 
-#### ● Official Game Page: [Click Here!](https://tychobrahe7.itch.io/rofnein) ~ 🍁
+#### ● Official Game Page: [Click Here!](https://tychobrahe7.itch.io/rofnein) ~ 🍁✨
 
 *- Fluminense Federal University (UFF) - 2023 / 2nd semester.*
