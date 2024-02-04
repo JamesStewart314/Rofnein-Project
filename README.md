@@ -6,8 +6,8 @@
 
 ## Project Collaborators:
 
-- ### *Ayrton Surica*
-- ### *Allber Fellype Soares Ferreira*
+- ### *Ayrton Surica* - [Github](https://github.com/AyrtonSur)
+- ### *Allber Fellype Soares Ferreira* - [Github](https://github.com/JamesStewart314)
 #
 
 
