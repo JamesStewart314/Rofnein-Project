@@ -1,7 +1,7 @@
 ![Rofnein - The Game](Game_Title.png)
 
 
-#####  This is a 2D roguelike game project developed for evaluation purposes of the Game Programming Laboratory discipline, taught by professor *Esteban Walter Gonzalez Clua*.
+#####  This is a 2D roguelike game project developed in Python Language for evaluation purposes of the Game Programming Laboratory discipline, taught by professor *Esteban Walter Gonzalez Clua*.
 
 
 ## Project Collaborators:
